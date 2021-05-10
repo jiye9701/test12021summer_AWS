@@ -8,39 +8,37 @@ import 'package:test12021summer_jiyeyu/session_cubit.dart';
 import 'package:test12021summer_jiyeyu/session_state.dart';
 import 'package:test12021summer_jiyeyu/session_view.dart';
 
-class AppNavigator extends StatelessWidget
-{
+class AppNavigator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    return BlocBuilder<SessionCubit, SessionState>(builder: (context, state) {
+      // TODO: implement build
+      return Navigator(
+        pages: [
+          //Show loading screen
+          if (state is UnknownSessionState) MaterialPage(child: LoadingView()),
 
-    return BlocBuilder<SessionCubit, SessionState>(builder: (context, state)
-      {
-    // TODO: implement build
-    return Navigator(
-      pages: [
-
-        //Show loading screen
-        if (state is UnknownSessionState)
-          MaterialPage(child: LoadingView()),
-
-        //Show auth flow
-        if (state is Unauthenticated)
-          MaterialPage (
-            child: BlocProvider(
-              //update
-      create: (context) => AuthCubit(sessionCubit: context.read<SessionCubit>()),
-      child: AuthNavigator(),
+          //Show auth flow
+          if (state is Unauthenticated)
+            MaterialPage(
+              child: BlocProvider(
+                //update
+                create: (context) =>
+                    AuthCubit(sessionCubit: context.read<SessionCubit>()),
+                child: AuthNavigator(),
+              ),
             ),
-          ),
 
-        //Show session flow
+          //Show session flow
 
-        if (state is Authenticated)
-          MaterialPage(child: SessionView())
-
-      ],
-      onPopPage: (route, result) => route.didPop(result),
-    );
-});
-}
+          if (state is Authenticated)
+            MaterialPage(
+                child: SessionView(
+              username: state.user.username,
+            ))
+        ],
+        onPopPage: (route, result) => route.didPop(result),
+      );
+    });
+  }
 }
