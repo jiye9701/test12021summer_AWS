@@ -42,6 +42,7 @@ class ConfirmationBloc extends Bloc<ConfirmationEvent, ConfirmationState> {
 
         authCubit.launchSession(credentials);
       } catch (e) {
+        print(e);
         yield state.copyWith(formStatus: SubmissionFailed(e));
       }
     }

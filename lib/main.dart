@@ -1,11 +1,18 @@
+import 'package:amplify_api/amplify_api.dart';
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:amplify_datastore/amplify_datastore.dart';
+import 'package:amplify_flutter/amplify.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:test12021summer_jiyeyu/amplifyconfiguration.dart';
 import 'package:test12021summer_jiyeyu/app_navigator.dart';
 import 'package:test12021summer_jiyeyu/auth/auth_repository.dart';
 import 'package:test12021summer_jiyeyu/session_cubit.dart';
 
 import 'auth/auth_repository.dart';
 import 'data_repository.dart';
+import 'loading_view.dart';
+import 'models/ModelProvider.dart';
 
 void main() {
   runApp(MyApp());
@@ -33,7 +40,7 @@ class _MyAppState extends State<MyApp> {
             ? MultiRepositoryProvider(
                 providers: [
                   RepositoryProvider(create: (context) => AuthRepository()),
-                  RepositoeyProvider(create: (context) => DataRepository())
+                  RepositoryProvider(create: (context) => DataRepository())
                 ],
                 child: BlocProvider(
                   create: (context) => SessionCubit(

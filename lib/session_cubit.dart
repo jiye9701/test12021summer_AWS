@@ -1,9 +1,13 @@
+// import 'package:amplify_flutter/amplify.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test12021summer_jiyeyu/auth/auth_credentials.dart';
 import 'package:test12021summer_jiyeyu/auth/auth_repository.dart';
 import 'package:test12021summer_jiyeyu/session_state.dart';
+import 'package:test12021summer_jiyeyu/data_repository.dart';
 
 import 'data_repository.dart';
+import 'models/ModelProvider.dart';
 import 'session_state.dart';
 
 class SessionCubit extends Cubit<SessionState> {
@@ -19,18 +23,21 @@ class SessionCubit extends Cubit<SessionState> {
 
   void attemptAutoLogin() async {
     try {
-      final session = await Amplify.Auth.fetchAuthSession();
+      final userId = await authRepo.attemptAutoLogin();
       if (userId == null) {
         throw Exception('User not logged in');
       }
 
-      User user = await dataRepo.getUserById(userId);
-      if (user == null) {
-        user = await dataRepo.createUser(
-          userId: userId,
-          username: 'User-${UUID()}',
-        );
-      }
+      User2 user = await dataRepo.getUserById(userId);
+
+      // if (user == null)
+      //   {
+      //     user = await dataRepo.createUser(
+      //       userId: userId,
+      //       username: 'User-${UUID()}',
+      //     );
+      // }
+
       emit(Authenticated(user: user));
     } on Exception {
       emit(Unauthenticated());
@@ -41,16 +48,17 @@ class SessionCubit extends Cubit<SessionState> {
   void showSession(AuthCredentials credentials) async{
     // final user = dataRep.getUser(credentials.userId); --later
     try{
-      User user await dataRepo.getUserById(credentials.userId);
+      User2 user = await dataRepo.getUserById(credentials.userId);
       
-      if (user ==null)
-      {
-        user = await dataRepo.createUser(
-          userId: credentials.userId,
-          name: credentials.username,
-          email: credentials.email,
-          );
-      }
+      // if (user ==null)
+      // {
+      //   user = await dataRepo.createUser(
+      //
+      //     userId: credentials.userId,
+      //     username: credentials.username,
+      //     email: credentials.email,
+      //     );
+      // }
     emit(Authenticated(user: user));
   } catch (e)
   {

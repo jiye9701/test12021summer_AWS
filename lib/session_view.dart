@@ -16,7 +16,7 @@ class SessionView extends StatelessWidget {
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('Heloo $username'),
+          Text('Hello $username'),
           TextButton(
             child: Text('sign out'),
             onPressed: () => BlocProvider.of<SessionCubit>(context).signOut(),

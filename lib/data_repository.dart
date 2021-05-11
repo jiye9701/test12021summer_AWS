@@ -2,11 +2,11 @@ import 'package:amplify_flutter/amplify.dart';
 import 'package:test12021summer_jiyeyu/models/ModelProvider.dart';
 
 class DataRepository {
-  Future<User> getUserById(String userId) async {
+  Future<User2> getUserById(String userId) async {
     try {
       final users = await Amplify.DataStore.query(
-        User.classType,
-        where: User.ID.eq(userId),
+        User2.classType,
+        where: User2.ID.eq(userId),
       );
       return users.isNotEmpty ? users.first : null;
     } catch (e) {
@@ -14,12 +14,15 @@ class DataRepository {
     }
   }
 
-  Future<User> createUser(
+  Future<User2> createUser(
     String userId,
-    String name,
+    String username,
     String email,
   ) async {
-    final newUser = User(id: userId, name: name, email: email);
+    final newUser = User2(
+        id: userId,
+        username: username,
+        email: email);
     try {
       await Amplify.DataStore.save(newUser);
       return newUser;
